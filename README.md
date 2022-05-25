@@ -1,6 +1,6 @@
 # Information-Retrieval
 
-## [Phase 1](https://github.com/amirrezarajabi/## [](https://github.com/amirrezarajabi/computational-intelligence/tree/main/Evolutionary-Projects)/tree/main/IR_P1)
+## [Phase 1](https://github.com/amirrezarajabi/Information-Retrieval/tree/main/IR_P1)
 create simple search engine on persian news
 
 gui
@@ -9,11 +9,11 @@ gui
 
 heaps with stem
 
-![heaps_with_stem](IR_P1/fig/heaps_with_stem.png)
+![heaps_with_stem](IR_P1/fig/heaps_with_stem.PNG)
 
 heaps with stem
 
-![heaps_without_stem](IR_P1/fig/heaps_without_stem.png)
+![heaps_without_stem](IR_P1/fig/heaps_without_stem.PNG)
 
 zipf with remove stopwords
 
