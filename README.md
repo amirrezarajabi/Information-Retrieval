@@ -23,3 +23,5 @@ zipf without remove stopwords
 
 ![zipf_without_remove_stopwords](IR_P1/fig/zipf_without_remove_stopwords.png)
 
+## [Phase 2](https://github.com/amirrezarajabi/Information-Retrieval/tree/main/IR_P2)
+improve it using tf idf methode + (index elimination + champions list)
