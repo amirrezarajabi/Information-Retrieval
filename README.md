@@ -1,7 +1,7 @@
 # Information-Retrieval
 
 ## [Phase 1](https://github.com/amirrezarajabi/Information-Retrieval/tree/main/IR_P1)
-create simple search engine on persian news
+create simple search engine on persian news :)
 
 gui
 
