@@ -30,13 +30,16 @@ class SEARCH_ENGINE:
             JSON = json.load(open(self.conf.DATA))
             for doc in JSON:
                 tokens = self.conf.preprocess_content(JSON[doc][self.conf.CONTENT], self.swords)
-                self.DICTIONARY_INFO_DOC[doc] = (JSON[doc][self.conf.TITLE], JSON[doc][self.conf.URL], len(tokens))
+                self.DICTIONARY_INFO_DOC[doc] = [JSON[doc][self.conf.TITLE], JSON[doc][self.conf.URL], 0]
                 for index, token in enumerate(tokens):
                     if not token in self.DICTIONARY:
                         self.DICTIONARY[token] = WORD(token)
                     self.DICTIONARY[token].add_posting(doc, index)
                     self.N_TOKENS += 1
             self.N = len(self.DICTIONARY_INFO_DOC)
+            for t in self.DICTIONARY.keys():
+                for docID in self.DICTIONARY[t].postingslist.keys():
+                    self.DICTIONARY_INFO_DOC[docID][2] += self.doc_tf_idf(docID, t) ** 2
             self.create_champions_list()
             if Save:
                 DICTIONARY_INFO_DOC_F = open(self.conf.DICTIONARY_INFO_DOC, 'wb')
@@ -122,7 +125,6 @@ class SEARCH_ENGINE:
         dic_q = self.prepare(query)
         print(dic_q)
         docs = {}
-        lenght_doc = {}
         for t in list(dic_q.keys()):
             tf_q, idf_q = self.calculate_tf_idf_query(t, dic_q)
             w_tq = tf_q * idf_q
@@ -131,16 +133,14 @@ class SEARCH_ENGINE:
                 w_td = tf * idf
                 if not docID in docs:
                     docs[docID] = [w_td * w_tq, 1]
-                    lenght_doc[docID] = w_td ** 2
                 else:
                     docs[docID][0] += w_td * w_tq
                     docs[docID][1] += 1
-                    lenght_doc[docID] += w_td ** 2
                 
         ans = []
         for docID in docs:
             if docs[docID][1] >= filter:
-                docs[docID][0] = docs[docID][0] / math.sqrt(lenght_doc[docID])
+                docs[docID][0] = docs[docID][0] / math.sqrt(self.DICTIONARY_INFO_DOC[docID][2])
                 ans.append((docID, docs[docID]))
         ans.sort(key=lambda x: x[1][0], reverse=True)
         if len(ans) > k:
@@ -151,7 +151,6 @@ class SEARCH_ENGINE:
     def run_champions(self, query, k=20, filter=1):
         dic_q = self.prepare(query)
         docs = {}
-        lenght_doc = {}
         for t in list(dic_q.keys()):
             tf_q, idf_q = self.calculate_tf_idf_query_champions(t, dic_q)
             w_tq = tf_q * idf_q
@@ -160,15 +159,13 @@ class SEARCH_ENGINE:
                 w_td = tf * idf
                 if not docID in docs:
                     docs[docID] = [w_td * w_tq, 1]
-                    lenght_doc[docID] = w_td ** 2
                 else:
                     docs[docID][0] += w_td * w_tq
                     docs[docID][1] += 1
-                    lenght_doc[docID] += w_td ** 2
         ans = []
         for docID in docs:
             if docs[docID][1] >= filter:
-                docs[docID][0] = docs[docID][0] / math.sqrt(lenght_doc[docID])
+                docs[docID][0] = docs[docID][0] / math.sqrt(self.DICTIONARY_INFO_DOC[docID][2])
                 ans.append((docID, docs[docID]))
         ans.sort(key=lambda x: x[1][0], reverse=True)
         if len(ans) > k:
