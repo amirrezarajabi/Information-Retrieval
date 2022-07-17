@@ -25,3 +25,6 @@ zipf without remove stopwords
 
 ## [Phase 2](https://github.com/amirrezarajabi/Information-Retrieval/tree/main/IR_P2)
 improve it using tf idf methode + (index elimination + champions list)
+
+## [Phase 3](https://github.com/amirrezarajabi/Information-Retrieval/tree/main/IR_P3)
+using elastic search for spell correction answer boolean query tf-idf method and implement k nearest-neighber
